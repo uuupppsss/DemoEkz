@@ -45,12 +45,6 @@ namespace DemoEkzApi.Controllers
                 return BadRequest("Password mismatching");
         }
 
-        //[HttpGet("Autorization")]
-        //public async Task<ActionResult> Autorization(User user)
-        //{
-        //    if (user == null)
-        //        return BadRequest("Invalid user");
-
-        //}
+        
     }
 }
