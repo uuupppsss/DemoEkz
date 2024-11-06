@@ -16,7 +16,7 @@ namespace DemoEkzApi.Controllers
         [HttpPost("CreateNewReservation")]
         public async Task<ActionResult> CreateNewReservation(GuestsRegister guestsRegister)
         {
-            if (guestsRegister == null) 
+            if (guestsRegister == null)
                 return BadRequest("Invalid reservation");
             context.GuestsRegisters.Add(guestsRegister);
             context.SaveChanges();
@@ -26,8 +26,11 @@ namespace DemoEkzApi.Controllers
         [HttpPut("UpdateReservation")]
         public async Task<ActionResult> UpdateReservation(GuestsRegister guestsRegister)
         {
-            if (guestsRegister==null)
+            if (guestsRegister == null)
                 return BadRequest("Invalid reservation");
+            GuestsRegister guestsRegister1 = context.GuestsRegisters.FirstOrDefault(x => x.Id == guestsRegister.Id);
+            if (guestsRegister1 == null)
+                return BadRequest("Reservation not found");
             context.GuestsRegisters.Update(guestsRegister);
             context.SaveChanges();
             return Ok();
@@ -38,12 +41,20 @@ namespace DemoEkzApi.Controllers
         {
             if (guestsRegister == null)
                 return BadRequest("Invalid reservation");
-            GuestsRegister guestsRegister1 = context.GuestsRegisters.FirstOrDefault(g=>g.Id == guestsRegister.Id);
+            GuestsRegister guestsRegister1 = context.GuestsRegisters.FirstOrDefault(g => g.Id == guestsRegister.Id);
             if (guestsRegister1 == null)
                 return BadRequest("Reservation not found");
             context.GuestsRegisters.Remove(guestsRegister1);
             context.SaveChanges();
             return Ok();
+        }
+
+        [HttpGet("GetReservationsList")]
+        public async Task<ActionResult<List<GuestsRegister>>> GetReservationsList()
+        {
+            List<GuestsRegister> list = [.. context.GuestsRegisters];
+            return Ok(list);
+
         }
     }
 }
