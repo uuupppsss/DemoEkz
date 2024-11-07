@@ -14,6 +14,13 @@ namespace DemoEkzApi.Controllers
             this.context = context;
         }
 
+        [HttpGet("GetCleaningsList")]
+        public async Task<ActionResult<List<Cleaning>>> GetCleaningsList()
+        {
+            List<Cleaning> list = [.. context.Cleanings];
+            return Ok(list); 
+        }
+
         [HttpPost("CreateNewCleaning")]
         public async Task<ActionResult> CreateNewCleaning(Cleaning cleaning)
         {

@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace DemoEkz
+namespace DemoEkz.View
 {
     /// <summary>
-    /// Логика взаимодействия для GuestRegisterWindow.xaml
+    /// Логика взаимодействия для RoomsListWindow.xaml
     /// </summary>
-    public partial class GuestRegisterWindow : Window
+    public partial class RoomsListWindow : Window
     {
-        public GuestRegisterWindow()
+        public RoomsListWindow()
         {
             InitializeComponent();
         }

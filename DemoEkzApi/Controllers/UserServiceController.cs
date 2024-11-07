@@ -1,5 +1,6 @@
 ﻿using DemoEkzApi.Model;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoEkzApi.Controllers
@@ -15,18 +16,26 @@ namespace DemoEkzApi.Controllers
         }
 
         [HttpPost("CreateNewUser")]
-        public async Task<ActionResult> CreateNewUser(User user)
+        public async Task<ActionResult> CreateNewUser(UserDTO user)
         {
             if (user == null)
                 return BadRequest("Invalid user");
-            user.IsAutorized = false;
-            context.Users.Add(user);
+            Роли user_role=context.Ролиs.FirstOrDefault(r=>r.Id==user.RoleId);
+            User user_to_create = new User()
+            {
+                Login = user.Login,
+                Password = user.Password,
+                RoleId = user.RoleId,
+                IsAutorized=false,
+                Role=user_role
+            };
+            context.Users.Add(user_to_create);
             context.SaveChanges();
             return Ok();
         }
 
         [HttpPut("FirstAutorization")]
-        public async Task<ActionResult> FirstAutorization(User user, string newPassword)
+        public async Task<ActionResult> FirstAutorization(UserDTO user, string newPassword)
         {
             if (user == null)
                 return BadRequest("Invalid user");

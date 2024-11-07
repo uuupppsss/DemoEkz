@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DemoEkzApi.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -22,9 +23,17 @@ namespace DemoEkz
         }
         public Servise()
         {
-            client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:5199/api/");
+            client = new HttpClient{ BaseAddress = new Uri("http://localhost:5199/api/") };
         }
 
+        public async void CreateNewUser(UserDTO user)
+        {
+
+        }
+
+        public async void Autorization(UserDTO user)
+        {
+
+        }
     }
 }
