@@ -20,40 +20,77 @@ namespace DemoEkzApi.Controllers
         {
             if (user == null)
                 return BadRequest("Invalid user");
-            Роли user_role=context.Ролиs.FirstOrDefault(r=>r.Id==user.RoleId);
+            User user1 = context.Users.FirstOrDefault(u => u.Login == user.Login);
+            if (user1 != null)
+                return BadRequest("User already exist");
             User user_to_create = new User()
             {
                 Login = user.Login,
                 Password = user.Password,
                 RoleId = user.RoleId,
-                IsAutorized=false,
-                Role=user_role
+                IsAutorized = false,
+                Role = context.Ролиs.FirstOrDefault(r => r.Id == user.RoleId)
             };
+            if (user_to_create.Role == null)
+                return BadRequest("Invalid data");
             context.Users.Add(user_to_create);
             await context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpPut("FirstAutorization")]
-        public async Task<ActionResult> FirstAutorization(UserDTO user, string newPassword)
+        public async Task<ActionResult<UserDTO>> FirstAutorization(UserDTO user, string newPassword)
         {
             if (user == null)
                 return BadRequest("Invalid user");
             User createdUser = context.Users.FirstOrDefault(x => x.Login == user.Login);
             if (createdUser == null)
-                return BadRequest("User not found");
+                return NotFound("User not found");
             if (createdUser.Password == user.Password)
             {
                 createdUser.Password = newPassword;
                 createdUser.IsAutorized = true;
                 context.Users.Update(createdUser);
                 await context.SaveChangesAsync();
-                return Ok();
+                return Ok(new UserDTO()
+                {
+                    Id=createdUser.Id,
+                    Login=createdUser.Login,
+                    Password=createdUser.Password,
+                    RoleId=createdUser.RoleId,
+                    IsAutorized=true
+                });
             }
             else
                 return BadRequest("Password mismatching");
         }
 
-        
+        [HttpGet("Autorization")]
+        public async Task<ActionResult<UserDTO>> Autorization(UserDTO user)
+        {
+            if (user == null)
+                return BadRequest("Invalid user_login");
+            User createdUser = context.Users.FirstOrDefault(x => x.Login == user.Login);
+            if (createdUser == null)
+                return NotFound("User not found");
+            if (createdUser.Password == user.Password)
+            {
+                return Ok(createdUser);
+            }
+            else
+                return BadRequest("Password mismatching");
+        }
+
+        [HttpGet("IfUserAutorized")]
+        public async Task<ActionResult<bool>> IfUserAutorized(string user_login)
+        {
+            if(user_login == null)
+                return BadRequest("Invalid user");
+            User createdUser = context.Users.FirstOrDefault(x => x.Login == user_login);
+            if (createdUser == null)
+                return NotFound("User not found");
+            return Ok(createdUser.IsAutorized);
+        }
+
     }
 }

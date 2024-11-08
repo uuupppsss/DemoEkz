@@ -1,6 +1,6 @@
 ﻿
-
 using DemoEkz.Model;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace DemoEkz.ViewModel
@@ -36,10 +36,13 @@ namespace DemoEkz.ViewModel
 
         public MainWindowVM()
         {
-			SignInCommand = new CustomCommand(() =>
+			service = Servise.Instance;
+			SignInCommand = new CustomCommand(async() =>
 			{
 				Pwd = pwd_box.Password;
-
+				bool isautorized = await service.IfUserAutorized(Login);
+				if (isautorized) MessageBox.Show("Вы авторизованы");
+				else MessageBox.Show("Нужно сменить пароль");
 			});
 		}
 
