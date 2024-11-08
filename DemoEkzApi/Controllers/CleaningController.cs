@@ -15,24 +15,46 @@ namespace DemoEkzApi.Controllers
         }
 
         [HttpGet("GetCleaningsList")]
-        public async Task<ActionResult<List<Cleaning>>> GetCleaningsList()
+        public async Task<ActionResult<List<CleaningDTO>>> GetCleaningsList()
         {
-            List<Cleaning> list = [.. context.Cleanings];
-            return Ok(list); 
+            List<CleaningDTO> result = new List<CleaningDTO>();
+            foreach (var c in context.Cleanings)
+            {
+                result.Add(new CleaningDTO()
+                {
+                    Id= c.Id,
+                    Cleaner=c.Cleaner,
+                    RoomId=c.RoomId,
+                    Date=c.Date,
+                    IsDone=c.IsDone,
+                });
+            }
+            return Ok(result);
         }
 
         [HttpPost("CreateNewCleaning")]
-        public async Task<ActionResult> CreateNewCleaning(Cleaning cleaning)
+        public async Task<ActionResult> CreateNewCleaning(CleaningDTO cleaning)
         {
             if (cleaning == null)
                 return BadRequest("Invalid data");
-            context.Cleanings.Add(cleaning);
-            context.SaveChanges();
+            Cleaning cleaningDTO = new Cleaning()
+            {
+                Id = cleaning.Id,
+                Cleaner = cleaning.Cleaner,
+                RoomId = cleaning.RoomId,
+                Date = cleaning.Date,
+                IsDone = cleaning.IsDone,
+                Room=context.НомернойФондs.FirstOrDefault(r=>r.Номер==cleaning.RoomId)
+            };
+            if (cleaningDTO.Room == null)
+                return BadRequest("Invalid data");
+            context.Cleanings.Add(cleaningDTO);
+            await context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpDelete("RemoveCleaning")]
-        public async Task<ActionResult> RemoveCleaning(Cleaning cleaning)
+        public async Task<ActionResult> RemoveCleaning(CleaningDTO cleaning)
         {
             if (cleaning == null)
                 return BadRequest("Invalid data");
@@ -40,20 +62,31 @@ namespace DemoEkzApi.Controllers
             if (cleaning1 == null)
                 return BadRequest("Cleaning not found");
             context.Cleanings.Remove(cleaning1);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpPut("UpdateCleaning")]
-        public async Task<ActionResult> UpdateCleaning(Cleaning cleaning)
+        public async Task<ActionResult> UpdateCleaning(CleaningDTO cleaning)
         {
             if (cleaning == null)
                 return BadRequest("Invalid data");
             Cleaning cleaning1 = context.Cleanings.FirstOrDefault(c => c.Id == cleaning.Id);
             if (cleaning1 == null)
                 return BadRequest("Cleaning not found");
-            context.Cleanings.Update(cleaning);
-            context.SaveChanges();
+            Cleaning cleaningDTO = new Cleaning()
+            {
+                Id = cleaning.Id,
+                Cleaner = cleaning.Cleaner,
+                RoomId = cleaning.RoomId,
+                Date = cleaning.Date,
+                IsDone = cleaning.IsDone,
+                Room = context.НомернойФондs.FirstOrDefault(r => r.Номер == cleaning.RoomId)
+            };
+            if (cleaningDTO.Room == null)
+                return BadRequest("Invalid data");
+            context.Cleanings.Update(cleaningDTO);
+            await context.SaveChangesAsync();
             return Ok();
         }
     }

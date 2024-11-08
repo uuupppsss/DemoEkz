@@ -30,7 +30,7 @@ namespace DemoEkzApi.Controllers
                 Role=user_role
             };
             context.Users.Add(user_to_create);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             return Ok();
         }
 
@@ -47,7 +47,7 @@ namespace DemoEkzApi.Controllers
                 createdUser.Password = newPassword;
                 createdUser.IsAutorized = true;
                 context.Users.Update(createdUser);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
                 return Ok();
             }
             else

@@ -14,30 +14,58 @@ namespace DemoEkzApi.Controllers
         }
 
         [HttpPost("CreateNewReservation")]
-        public async Task<ActionResult> CreateNewReservation(GuestsRegister guestsRegister)
+        public async Task<ActionResult> CreateNewReservation(GuestRegisterDTO guestsRegister)
         {
             if (guestsRegister == null)
                 return BadRequest("Invalid reservation");
-            context.GuestsRegisters.Add(guestsRegister);
-            context.SaveChanges();
+            GuestsRegister reservation = new GuestsRegister()
+            {
+                GuestId = guestsRegister.GuestId,
+                RoomId = guestsRegister.RoomId,
+                EntryDate = guestsRegister.EntryDate,
+                LeavingDate = guestsRegister.LeavingDate,
+                Price = guestsRegister.Price,
+                IsPaid = guestsRegister.IsPaid,
+                Receipt = guestsRegister.Receipt,
+                Guest = context.Guests.FirstOrDefault(g => g.Id == guestsRegister.GuestId),
+                Room=context.НомернойФондs.FirstOrDefault(r=>r.Номер==guestsRegister.RoomId)
+            };
+            if (reservation.Guest == null || reservation.Room == null)
+                return BadRequest("Invalid data");
+            context.GuestsRegisters.Add(reservation);
+            await context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpPut("UpdateReservation")]
-        public async Task<ActionResult> UpdateReservation(GuestsRegister guestsRegister)
+        public async Task<ActionResult> UpdateReservation(GuestRegisterDTO guestsRegister)
         {
             if (guestsRegister == null)
                 return BadRequest("Invalid reservation");
             GuestsRegister guestsRegister1 = context.GuestsRegisters.FirstOrDefault(x => x.Id == guestsRegister.Id);
             if (guestsRegister1 == null)
                 return BadRequest("Reservation not found");
-            context.GuestsRegisters.Update(guestsRegister);
-            context.SaveChanges();
+            GuestsRegister reservation = new GuestsRegister()
+            {
+                GuestId = guestsRegister.GuestId,
+                RoomId = guestsRegister.RoomId,
+                EntryDate = guestsRegister.EntryDate,
+                LeavingDate = guestsRegister.LeavingDate,
+                Price = guestsRegister.Price,
+                IsPaid = guestsRegister.IsPaid,
+                Receipt = guestsRegister.Receipt,
+                Guest = context.Guests.FirstOrDefault(g => g.Id == guestsRegister.GuestId),
+                Room = context.НомернойФондs.FirstOrDefault(r => r.Номер == guestsRegister.RoomId)
+            };
+            if (reservation.Guest == null || reservation.Room == null)
+                return BadRequest("Invalid data");
+            context.GuestsRegisters.Update(reservation);
+            await context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpDelete("RemoveReservation")]
-        public async Task<ActionResult> RemoveReservation(GuestsRegister guestsRegister)
+        public async Task<ActionResult> RemoveReservation(GuestRegisterDTO guestsRegister)
         {
             if (guestsRegister == null)
                 return BadRequest("Invalid reservation");
@@ -45,15 +73,29 @@ namespace DemoEkzApi.Controllers
             if (guestsRegister1 == null)
                 return BadRequest("Reservation not found");
             context.GuestsRegisters.Remove(guestsRegister1);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpGet("GetReservationsList")]
-        public async Task<ActionResult<List<GuestsRegister>>> GetReservationsList()
+        public async Task<ActionResult<List<GuestRegisterDTO>>> GetReservationsList()
         {
-            List<GuestsRegister> list = [.. context.GuestsRegisters];
-            return Ok(list);
+            List<GuestRegisterDTO> result= new List<GuestRegisterDTO>();
+            foreach (var r in context.GuestsRegisters)
+            {
+                result.Add(new GuestRegisterDTO()
+                {
+                    Id= r.Id,
+                    RoomId= r.RoomId,
+                    GuestId= r.GuestId,
+                    EntryDate= r.EntryDate,
+                    LeavingDate= r.LeavingDate,
+                    Receipt= r.Receipt,
+                    Price= r.Price,
+                    IsPaid= r.IsPaid
+                });
+            }
+            return Ok(result);
 
         }
     }
