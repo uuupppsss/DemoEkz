@@ -1,0 +1,45 @@
+﻿<Window x:Class="DemoEkz.View.AdminView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DemoEkz.View"
+        mc:Ignorable="d"
+        Title="AdminView" Height="450" Width="800">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Список номеров">
+                <StackPanel>
+                    <Button Content="Добавить комнату" Width="200" HorizontalAlignment="Left"/>
+                    <Label Content="Доступные комнаты:"/>
+                    <ListBox>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical">
+                                        <Label Content=""/>
+                                        <Label Content=""/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical">
+                                        <Label Content=""/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button/>
+                                            <Button/>
+                                            <Button/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Регистрация пользователя">
+
+            </TabItem>
+            <TabItem Header="Расписание уборок">
+
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

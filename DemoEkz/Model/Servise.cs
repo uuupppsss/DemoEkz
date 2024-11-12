@@ -64,8 +64,29 @@ namespace DemoEkz
 
         public async Task<bool> IfUserAutorized(string user_login)
         {
-            string arg = JsonSerializer.Serialize(user_login);
-            var responce = await client.GetAsync($"UserService/IfUserExist?user_login={arg}");
+            var responce = await client.GetAsync($"UserService/IfUserExist?user_login={user_login}");
+            if (responce.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return await responce.Content.ReadFromJsonAsync<bool>();
+            }
+            else return false;
+        }
+
+        public async Task<bool> IfUserExist(string user_login)
+        {
+            var responce = await client.GetAsync($"UserService/IfUserExist?user_login={user_login}");
+            if (responce.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return await responce.Content.ReadFromJsonAsync<bool>();
+            }
+            else return false;
+
+        }
+
+        public async Task<bool> IfPasswordMatch(UserDTO user)
+        {
+            string arg = JsonSerializer.Serialize(user);
+            var responce = await client.GetAsync($"UserService/IfUserExist?user={arg}");
             if (responce.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return await responce.Content.ReadFromJsonAsync<bool>();

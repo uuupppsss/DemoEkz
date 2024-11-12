@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace DemoEkz.View
 {
     /// <summary>
-    /// Логика взаимодействия для RoomsListWindow.xaml
+    /// Логика взаимодействия для AdminView.xaml
     /// </summary>
-    public partial class RoomsListWindow : Window
+    public partial class AdminView : Window
     {
-        public RoomsListWindow()
+        public AdminView()
         {
             InitializeComponent();
         }

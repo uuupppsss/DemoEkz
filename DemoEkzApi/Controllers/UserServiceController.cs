@@ -92,5 +92,28 @@ namespace DemoEkzApi.Controllers
             return Ok(createdUser.IsAutorized);
         }
 
+        [HttpGet("IfUserExist")]
+        public async Task<ActionResult<bool>> IfUserExist(string user_login)
+        {
+            if (user_login == null)
+                return BadRequest("Invalid user");
+            User createdUser = context.Users.FirstOrDefault(y => y.Login == user_login);
+            if (createdUser == null)
+                return Ok(false);
+            else return Ok(true);
+        }
+
+        [HttpGet("IfPasswordMatch")]
+        public async Task<ActionResult<bool>> IfPasswordMatch(UserDTO user)
+        {
+            if (user == null)
+                return BadRequest("Invalid user");
+            User createdUser = context.Users.FirstOrDefault(y => y.Login == user.Login);
+            if (createdUser == null)
+                return NotFound();
+            if (user.Password == createdUser.Password)
+                return Ok(true);
+            else return Ok(false);
+        }
     }
 }
