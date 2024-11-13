@@ -35,10 +35,18 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="Регистрация пользователя">
-
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Логин"/>
+                    <TextBox/>
+                    <Label Content="Пароль"/>
+                    <TextBox/>
+                    <Button Content="Добавить"/>
+                </StackPanel>
             </TabItem>
             <TabItem Header="Расписание уборок">
-
+                <StackPanel Orientation="Vertical">
+                    
+                </StackPanel>
             </TabItem>
         </TabControl>
     </Grid>

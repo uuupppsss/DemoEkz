@@ -36,13 +36,19 @@ namespace DemoEkz.Model
         }
 
        public async Task<List<CleaningDTO>> GetCleaningsList()
-        {
+       {
             var responce = await client.GetAsync("UserService/CreateNewUser");
             if (responce.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return await responce.Content.ReadFromJsonAsync<List<CleaningDTO>>();
             }
             else return null;
+       }
+
+        public async void RemoveUser(int id)
+        {
+            var responce = await client.GetAsync($"UserService/CreateNewUser?user_id={id}");
+            responce.EnsureSuccessStatusCode();
         }
     }
 }
