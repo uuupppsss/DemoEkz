@@ -8,7 +8,7 @@ namespace DemoEkz.ViewModel
 {
     public class MainWindowVM:BaseVM
     {
-		private Servise service;
+		private UserServise service;
 		private string _login;
 
 		public string Login
@@ -37,7 +37,7 @@ namespace DemoEkz.ViewModel
 
         public MainWindowVM()
         {
-			service = Servise.Instance;
+			service = UserServise.Instance;
 			SignInCommand = new CustomCommand(async() =>
 			{
 				Pwd = pwd_box.Password;
@@ -54,7 +54,6 @@ namespace DemoEkz.ViewModel
 							if (service.CurrentUser != null)
 							{
                                 MessageBox.Show($"Добро пожаловать, {service.CurrentUser.Login}");
-
                             }
 						}
 						else

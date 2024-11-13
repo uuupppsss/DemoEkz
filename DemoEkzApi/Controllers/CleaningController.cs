@@ -53,12 +53,12 @@ namespace DemoEkzApi.Controllers
             return Ok();
         }
 
-        [HttpDelete("RemoveCleaning")]
-        public async Task<ActionResult> RemoveCleaning(CleaningDTO cleaning)
+        [HttpGet("RemoveCleaning")]
+        public async Task<ActionResult> RemoveCleaning(int id)
         {
-            if (cleaning == null)
+            if (id == 0)
                 return BadRequest("Invalid data");
-            Cleaning cleaning1 = context.Cleanings.FirstOrDefault(c => c.Id == cleaning.Id);
+            Cleaning cleaning1 = context.Cleanings.FirstOrDefault(c => c.Id == id);
             if (cleaning1 == null)
                 return BadRequest("Cleaning not found");
             context.Cleanings.Remove(cleaning1);

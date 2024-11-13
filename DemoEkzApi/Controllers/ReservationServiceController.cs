@@ -64,12 +64,12 @@ namespace DemoEkzApi.Controllers
             return Ok();
         }
 
-        [HttpDelete("RemoveReservation")]
-        public async Task<ActionResult> RemoveReservation(GuestRegisterDTO guestsRegister)
+        [HttpGet("RemoveReservation")]
+        public async Task<ActionResult> RemoveReservation(int id)
         {
-            if (guestsRegister == null)
+            if (id == 0)
                 return BadRequest("Invalid reservation");
-            GuestsRegister guestsRegister1 = context.GuestsRegisters.FirstOrDefault(g => g.Id == guestsRegister.Id);
+            GuestsRegister guestsRegister1 = context.GuestsRegisters.FirstOrDefault(g => g.Id == id);
             if (guestsRegister1 == null)
                 return BadRequest("Reservation not found");
             context.GuestsRegisters.Remove(guestsRegister1);

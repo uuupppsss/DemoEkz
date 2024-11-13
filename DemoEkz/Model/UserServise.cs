@@ -8,34 +8,27 @@ using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DemoEkz
 {
-    public class Servise
+    public class UserServise
     {
         private readonly HttpClient client;
-        static Servise instance;
+        static UserServise instance;
         public UserDTO CurrentUser;
-        public static Servise Instance
+        public static UserServise Instance
         {
             get
             {
                 if (instance == null) 
-                    instance = new Servise();
+                    instance = new UserServise();
                 return instance;
             }
         }
-        public Servise()
+        public UserServise()
         {
             client = new HttpClient{ BaseAddress = new Uri("http://localhost:5199/api/") };
-        }
-
-        //работа с юзерами
-        public async void CreateNewUser(UserDTO user)
-        {
-            string arg=JsonSerializer.Serialize(user);
-            var responce = await client.PostAsync("UserService/CreateNewUser", new StringContent(arg, Encoding.UTF8, "application/json"));
-            responce.EnsureSuccessStatusCode();
         }
 
         public async void Autorization(UserDTO user)
@@ -69,6 +62,7 @@ namespace DemoEkz
             {
                 return await responce.Content.ReadFromJsonAsync<bool>();
             }
+
             else return false;
         }
 
@@ -79,8 +73,11 @@ namespace DemoEkz
             {
                 return await responce.Content.ReadFromJsonAsync<bool>();
             }
-            else return false;
-
+            else
+            {
+                MessageBox.Show("Ex");
+                return false;
+            }
         }
 
         public async Task<bool> IfPasswordMatch(UserDTO user)
@@ -94,21 +91,24 @@ namespace DemoEkz
             else return false;
         }
 
-        //работа с бронями
-
         public async void CreateNewReservation(GuestRegisterDTO reservation)
         {
-
+            string arg = JsonSerializer.Serialize(reservation);
+            var responce = await client.PostAsync("ReservationService/CreateNewReservation", new StringContent(arg, Encoding.UTF8, "application/json"));
+            responce.EnsureSuccessStatusCode();
         }
 
         public async void UpdateReservation(GuestRegisterDTO reservation)
         {
-
+            string arg = JsonSerializer.Serialize(reservation);
+            var responce = await client.PutAsync("ReservationService/UpdateReservation", new StringContent(arg, Encoding.UTF8, "application/json"));
+            responce.EnsureSuccessStatusCode();
         }
 
-        public async void RemoveReservation(GuestRegisterDTO reservation)
+        public async void RemoveReservation(int id)
         {
-
+            var responce = await client.GetAsync($"ReservationService/RemoveReservation?id={id}");
+            responce.EnsureSuccessStatusCode();
         }
 
     }
