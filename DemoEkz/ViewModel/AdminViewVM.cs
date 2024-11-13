@@ -58,6 +58,9 @@ namespace DemoEkz.ViewModel
                 if (r != null)
                 {
                     service.CurrentRoom = r;
+                    GuestRegisterWindow win= new GuestRegisterWindow();
+                    win.Closed += UnsetSelectedRoom;
+                    win.ShowDialog();
                 }
             });
 

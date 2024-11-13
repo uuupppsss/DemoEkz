@@ -45,16 +45,18 @@ RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminVie
             </TabItem>
             <TabItem Header="Расписание уборок">
                 <StackPanel Orientation="Vertical">
-                    
+                    <ListBox>
+
+                    </ListBox>
                 </StackPanel>
             </TabItem>
 
             <TabItem Header="Пользователи">
                 <StackPanel>
                     <Button Content="Добавить пользователя" Width="200" HorizontalAlignment="Left"/>
-                    <ListView>
+                    <ListBox>
                         
-                    </ListView>
+                    </ListBox>
                 </StackPanel>
             </TabItem>
         </TabControl>
