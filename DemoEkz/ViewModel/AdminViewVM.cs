@@ -1,10 +1,6 @@
 ﻿using DemoEkz.Model;
 using DemoEkz.View;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace DemoEkz.ViewModel
 {
@@ -24,14 +20,26 @@ namespace DemoEkz.ViewModel
             }
         }
 
-        private RoomView _selectedRoom;
+        private List<CleaningDTO> _cleanings;
 
-        public RoomView SelectedRoom
+        public List<CleaningDTO> Cleanings
         {
-            get => _selectedRoom; 
-            set 
+            get => _cleanings;
+            set
             {
-                _selectedRoom = value;
+                _cleanings = value;
+                Signal();
+            }
+        }
+
+        private List<UserDTO> _users;
+
+        public List<UserDTO> Users
+        {
+            get => _users;
+            set
+            {
+                _users = value;
                 Signal();
             }
         }
@@ -40,16 +48,26 @@ namespace DemoEkz.ViewModel
         public CustomCommand<RoomView> CreateNewReservation { get; set; }
         public CustomCommand<RoomView> SetNewCleaning { get; set; }
 
+        public CustomCommand<CleaningDTO> UpdateCleaning { get; set; }
+        public CustomCommand<CleaningDTO> DeleteCleaning { get; set; }
+
+        public CustomCommand<UserDTO> DeleteUser { get; set; }
+
+        public CustomCommand CreateNewUser { get; set; }
+
         public AdminViewVM()
         {
             service=Servise.Instance;
             GetRoomsList();
+            GetCleaningsList();
+            GetUsersList();
 
             UpdateRoom = new CustomCommand<RoomView>(r => 
             {
                 if (r != null)
                 {
                     service.CurrentRoom = r;
+                    //обновить коллекцию
                 }
             });
 
@@ -60,6 +78,7 @@ namespace DemoEkz.ViewModel
                     service.CurrentRoom = r;
                     GuestRegisterWindow win= new GuestRegisterWindow();
                     win.Closed += UnsetSelectedRoom;
+                    //обновить коллекцию
                     win.ShowDialog();
                 }
             });
@@ -71,8 +90,51 @@ namespace DemoEkz.ViewModel
                     service.CurrentRoom = r;
                     AddNewCleaning win= new AddNewCleaning();
                     win.Closed += UnsetSelectedRoom;
+                    //обновить коллекцию
                     win.ShowDialog();
 
+                }
+            });
+
+            CreateNewUser = new CustomCommand(() =>
+            {
+                CreateUserWin win= new CreateUserWin();
+                win.Show();
+                //обновить коллекцию
+            });
+
+            DeleteUser = new CustomCommand<UserDTO>(u =>
+            {
+                if (u != null)
+                {
+                    var ans = MessageBox.Show("Удалить? ", "Точно?", MessageBoxButton.YesNo);
+                    if (ans == MessageBoxResult.Yes)
+                    {
+                        service.RemoveUser(u.Id);
+                        //обновить коллекцию
+                    }
+                }
+            });
+
+            DeleteCleaning = new CustomCommand<CleaningDTO>(c =>
+            {
+                if (c != null)
+                {
+                    var ans = MessageBox.Show("Удалить? ", "Точно?", MessageBoxButton.YesNo);
+                    if (ans == MessageBoxResult.Yes)
+                    {
+                        service.RemoveCleaning(c.Id);
+                        //обновить коллекцию
+                    }
+                }
+            });
+
+            UpdateCleaning = new CustomCommand<CleaningDTO>(c =>
+            {
+                if (c != null)
+                {
+                    service.CurrentCleaning = c;
+                    //обновить коллекцию
                 }
             });
         }
@@ -82,6 +144,16 @@ namespace DemoEkz.ViewModel
         private async void GetRoomsList()
         {
             Rooms = await service.GetRoomsViewList();
+        }
+
+        private async void GetCleaningsList()
+        {
+            Cleanings = await service.GetCleaningsList();
+        }
+
+        private async void GetUsersList()
+        {
+            Users=await service.GetUsersList();
         }
 
         private void UnsetSelectedRoom(object sender, EventArgs e)

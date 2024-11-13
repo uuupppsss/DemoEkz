@@ -130,14 +130,32 @@ namespace DemoEkzApi.Controllers
         //}
 
         [HttpGet("RemoveUser")]
-        public async Task<ActionResult<bool>> RemoveUser(int user_id)
+        public async Task<ActionResult> RemoveUser(int user_id)
         {
             if (user_id == 0) return BadRequest("Invalid data");
             User createdUser = context.Users.FirstOrDefault(x => x.Id == user_id);
             if (createdUser==null) return NotFound();
             context.Users.Remove(createdUser);
             await context.SaveChangesAsync();
-            return Ok(true);
+            return Ok();
+        }
+
+        [HttpGet("GetUsersList")]
+        public async Task<ActionResult<List<UserDTO>>> GetUsersList()
+        {
+            List<UserDTO> result=new List<UserDTO>();
+            foreach (var user in context.Users)
+            {
+                result.Add(new UserDTO()
+                {
+                    Id = user.Id,
+                    Login = user.Login,
+                    Password = user.Password,
+                    RoleId = user.RoleId,
+                    IsAutorized = user.IsAutorized,
+                });
+            }
+            return Ok(result);
         }
     }
 }

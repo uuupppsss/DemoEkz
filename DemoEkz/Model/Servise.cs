@@ -18,6 +18,7 @@ namespace DemoEkz
         static Servise instance;
         public UserDTO CurrentUser;
         public RoomView CurrentRoom;
+        public CleaningDTO CurrentCleaning;
         public static Servise Instance
         {
             get
@@ -179,6 +180,51 @@ namespace DemoEkz
             }
         }
 
+        public async Task<List<UserDTO>> GetUsersList()
+        {
+            try
+            {
+                var response = await client.GetAsync($"UserService/GetUsersList");
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Что-то пошло не так", $"Ошибка: {response.StatusCode}");
+                    return null;
+                }
+                else
+                {
+                    List<UserDTO> users= await response.Content.ReadFromJsonAsync<List<UserDTO>>();
+                    if (users != null)
+                    {
+                        List<UserDTO> result = new List<UserDTO>();
+                        foreach (var u in users)
+                        {
+                            if (u.IsAutorized)
+                            {
+                                result.Add(new UserDTO()
+                                {
+                                    Id = u.Id,
+                                    Login = u.Login,
+                                    Password = " "
+                                }); ;
+                            }
+                            else
+                            {
+                                result.Add(u);
+                            }
+                        }
+                        return result;
+                    }
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Всё сломалось: {ex.Message}");
+                return null;
+            }
+        }
+
         //Брони
         public async void CreateNewReservation(GuestRegisterDTO reservation)
         {
@@ -243,7 +289,7 @@ namespace DemoEkz
         {
             try
             {
-                var response = await client.GetAsync($"ReservationService/GetReservationsList/");
+                var response = await client.GetAsync($"ReservationService/GetReservationsList");
                 if (!response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Что-то пошло не так", $"Ошибка: {response.StatusCode}");

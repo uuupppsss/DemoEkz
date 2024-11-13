@@ -21,7 +21,7 @@
                         <Label Content="Категория" Width="150"/>
                         <Label Content="Статус" Width="100"/>
                         <Label Content="Цена" Width="50"/>
-                        <ListBox ItemsSource="{Binding Rooms}" SelectedItem="{Binding SelectedRoom}">
+                        <ListBox ItemsSource="{Binding Rooms}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -45,7 +45,20 @@ RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminVie
             </TabItem>
             <TabItem Header="Расписание уборок">
                 <StackPanel Orientation="Vertical">
-                    <ListBox>
+                    <ListBox ItemsSource="{Binding Cleanings}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Room_id}"/>
+                                    <TextBlock Text="{Binding Cleaner}"/>
+                                    <TextBlock Text="{Binding Date}"/>
+                                    <Button Content="Изменить" Width="auto" CommandParameter="{Binding}"  Command="{Binding DataContext.UpdateCleaning, 
+RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminView}}}"/>
+                                    <Button Content="Удалить" Width="auto" CommandParameter="{Binding}"  Command="{Binding DataContext.DeleteCleaning, 
+RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminView}}}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
 
                     </ListBox>
                 </StackPanel>
@@ -53,9 +66,19 @@ RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminVie
 
             <TabItem Header="Пользователи">
                 <StackPanel>
-                    <Button Content="Добавить пользователя" Width="200" HorizontalAlignment="Left"/>
+                    <Button Content="Добавить пользователя" Width="200" HorizontalAlignment="Left" Command="{Binding CreateNewUser}"/>
                     <ListBox>
-                        
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock/>
+                                    <TextBlock/>
+                                    <Button Content="Удалить" Width="auto" CommandParameter="{Binding}"  Command="{Binding DataContext.DeleteUser, 
+RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminView}}}"/>
+                                    
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
                 </StackPanel>
             </TabItem>
