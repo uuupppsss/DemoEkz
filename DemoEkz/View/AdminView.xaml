@@ -67,12 +67,12 @@ RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminVie
             <TabItem Header="Пользователи">
                 <StackPanel>
                     <Button Content="Добавить пользователя" Width="200" HorizontalAlignment="Left" Command="{Binding CreateNewUser}"/>
-                    <ListBox>
+                    <ListBox ItemsSource="{Binding Users}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock/>
-                                    <TextBlock/>
+                                    <TextBlock Text="{Binding Login}"/>
+                                    <TextBlock Text="{Binding Password}"/>
                                     <Button Content="Удалить" Width="auto" CommandParameter="{Binding}"  Command="{Binding DataContext.DeleteUser, 
 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminView}}}"/>
                                     
