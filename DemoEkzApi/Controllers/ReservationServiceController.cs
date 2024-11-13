@@ -37,7 +37,7 @@ namespace DemoEkzApi.Controllers
             return Ok();
         }
 
-        [HttpPut("UpdateReservation")]
+        [HttpPost("UpdateReservation")]
         public async Task<ActionResult> UpdateReservation(GuestRegisterDTO guestsRegister)
         {
             if (guestsRegister == null)

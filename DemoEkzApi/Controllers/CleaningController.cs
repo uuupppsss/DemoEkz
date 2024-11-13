@@ -66,7 +66,7 @@ namespace DemoEkzApi.Controllers
             return Ok();
         }
 
-        [HttpPut("UpdateCleaning")]
+        [HttpPost("UpdateCleaning")]
         public async Task<ActionResult> UpdateCleaning(CleaningDTO cleaning)
         {
             if (cleaning == null)

@@ -4,12 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DemoEkz.View"
+        xmlns:vm="clr-namespace:DemoEkz.ViewModel"
         mc:Ignorable="d"
-        Title="AddNewCleaning" Height="450" Width="800">
+        DataContext="{DynamicResource vm}"
+        Title="AddNewCleaning" Height="200" Width="500">
+    <Window.Resources>
+        <vm:AddNewCleaningVM x:Key="vm"/>
+    </Window.Resources>
     <Grid>
         <StackPanel>
             <Label Content="Номер"/>
-            <ComboBox/>
+            <TextBlock Text="{Binding RoomId}"/>
             <Label Content="Уборщик"/>
             <TextBox/>
             <Label Content="Дата"/>

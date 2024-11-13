@@ -30,4 +30,28 @@ namespace DemoEkz.Model
         }
 
     }
+
+    public class CustomCommand<T> : ICommand
+    {
+
+        public Action<T> _Execute;
+
+        public CustomCommand(Action<T> ExecuteMethod)
+        {
+            _Execute = ExecuteMethod;
+        }
+
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            _Execute((T)parameter);
+        }
+
+    }
 }

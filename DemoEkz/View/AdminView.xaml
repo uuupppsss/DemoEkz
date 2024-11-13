@@ -4,48 +4,57 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DemoEkz.View"
+        xmlns:vm="clr-namespace:DemoEkz.ViewModel"
         mc:Ignorable="d"
+        DataContext="{DynamicResource vm}"
         Title="AdminView" Height="450" Width="800">
+    <Window.Resources>
+        <vm:AdminViewVM x:Key="vm"/>
+    </Window.Resources>
     <Grid>
         <TabControl>
-            <TabItem Header="Список номеров">
-                <StackPanel>
-                    <Button Content="Добавить комнату" Width="200" HorizontalAlignment="Left"/>
-                    <Label Content="Доступные комнаты:"/>
-                    <ListBox>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel Orientation="Vertical">
-                                        <Label Content=""/>
-                                        <Label Content=""/>
+            <TabItem Header="Номера">
+                <StackPanel >
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Номер" Width="50"/>
+                        <Label Content="Этаж" Width="50"/>
+                        <Label Content="Категория" Width="150"/>
+                        <Label Content="Статус" Width="100"/>
+                        <Label Content="Цена" Width="50"/>
+                        <ListBox ItemsSource="{Binding Rooms}" SelectedItem="{Binding SelectedRoom}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Room_id}" Width="50"/>
+                                        <TextBlock Text="{Binding Floor}" Width="50"/>
+                                        <TextBlock Text="{Binding Category}" Width="150"/>
+                                        <TextBlock Text="{Binding Status}" Width="50"/>
+                                        <Button Content="Изменить" Width="auto" CommandParameter="{Binding}"  Command="{Binding DataContext.UpdateRoom, 
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminView}}}"/>
+                                        <Button Content="Создать бронь" Width="auto" CommandParameter="{Binding}"  Command="{Binding DataContext.CreateNewReservation, 
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminView}}}"/>
+                                        <Button Content="Назначить уборку" Width="auto" CommandParameter="{Binding}"  Command="{Binding DataContext.SetNewCleaning, 
+RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminView}}}"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Vertical">
-                                        <Label Content=""/>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button/>
-                                            <Button/>
-                                            <Button/>
-                                        </StackPanel>
-                                    </StackPanel>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Регистрация пользователя">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Логин"/>
-                    <TextBox/>
-                    <Label Content="Пароль"/>
-                    <TextBox/>
-                    <Button Content="Добавить"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+
                 </StackPanel>
             </TabItem>
             <TabItem Header="Расписание уборок">
                 <StackPanel Orientation="Vertical">
                     
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Пользователи">
+                <StackPanel>
+                    <Button Content="Добавить пользователя" Width="200" HorizontalAlignment="Left"/>
+                    <ListView>
+                        
+                    </ListView>
                 </StackPanel>
             </TabItem>
         </TabControl>

@@ -7,14 +7,14 @@
         mc:Ignorable="d"
         Title="Бронирование комнаты" Height="450" Width="800">
     <StackPanel>
+        <Label Content="Номер"/>
+        <TextBlock/>
         <Label Content="Имя"/>
         <TextBox/>
         <Label Content="Фамилия"/>
         <TextBox/>
         <Label Content="Отчество "/>
         <TextBox/>
-        <Label Content="Номер"/>
-        <ComboBox/>
         <Label Content="Дата въезда"/>
         <DatePicker/>
         <Label Content="Дата выезда"/>

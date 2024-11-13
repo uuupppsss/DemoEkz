@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DemoEkzApi.Model;
-
-public partial class Otchet
+﻿namespace DemoEkzApi.Model
 {
-    public int Номер { get; set; }
+    public partial class Otchet
+    {
+        public int Номер { get; set; }
 
-    public string Статус { get; set; } = null!;
+        public string Статус { get; set; } = null!;
 
-    public int Id { get; set; }
+        public int Id { get; set; }
 
-    public virtual НомернойФонд НомерNavigation { get; set; } = null!;
+        public virtual НомернойФонд НомерNavigation { get; set; } = null!;
+    }
 }

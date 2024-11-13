@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DemoEkz.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,11 @@ namespace DemoEkz.View
         public FirstAutorizationWindow()
         {
             InitializeComponent();
+            pwd_box.PasswordChar = '*';
+            pwd_box.MaxLength = 50;
+            repeat_pwd_box.PasswordChar = '*';
+            repeat_pwd_box.MaxLength = 50;
+            ((FirstAutorizationWindowVM)DataContext).SetPassBoxes(pwd_box,repeat_pwd_box);
         }
     }
 }

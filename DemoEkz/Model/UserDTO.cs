@@ -1,4 +1,4 @@
-﻿namespace DemoEkzApi.Model
+﻿namespace DemoEkz.Model
 {
     public class UserDTO
     {
