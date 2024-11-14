@@ -5,11 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DemoEkz.View"
         xmlns:vm="clr-namespace:DemoEkz.ViewModel"
+        xmlns:conv="clr-namespace:DemoEkz.Convert"
         mc:Ignorable="d"
         DataContext="{DynamicResource vm}"
         Title="AdminView" Height="450" Width="800">
     <Window.Resources>
         <vm:AdminViewVM x:Key="vm"/>
+        <conv:PriceConverter x:Key="price_converter"/>
     </Window.Resources>
     <Grid>
         <TabControl>
@@ -22,7 +24,7 @@
                         <Label Content="Статус" Width="100"/>
                         <Label Content="Цена" Width="50"/>
                     </StackPanel>
-                    <ListBox ItemsSource="{Binding Rooms}">
+                    <ListBox ItemsSource="{Binding Rooms}" VerticalAlignment="Stretch">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -30,6 +32,7 @@
                                     <TextBlock Text="{Binding Floor}" Width="50"/>
                                     <TextBlock Text="{Binding Category}" Width="150"/>
                                     <TextBlock Text="{Binding Status}" Width="50"/>
+                                    <TextBlock Text="{Binding Price, Converter={StaticResource price_converter}}" Width="50"/>
                                     <Button Content="Изменить" Width="auto" CommandParameter="{Binding}"  Command="{Binding DataContext.UpdateRoom, 
                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminView}}}"/>
                                     <Button Content="Создать бронь" Width="auto" CommandParameter="{Binding}"  Command="{Binding DataContext.CreateNewReservation, 
@@ -44,7 +47,7 @@ RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminVie
             </TabItem>
             <TabItem Header="Расписание уборок">
                 <StackPanel Orientation="Vertical">
-                    <ListBox ItemsSource="{Binding Cleanings}">
+                    <ListBox ItemsSource="{Binding Cleanings}" VerticalAlignment="Stretch">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -63,7 +66,7 @@ RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminVie
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Пользователи">
+            <TabItem Header="Пользователи" VerticalAlignment="Stretch">
                 <StackPanel>
                     <Button Content="Добавить пользователя" Width="200" HorizontalAlignment="Left" Command="{Binding CreateNewUser}"/>
                     <ListBox ItemsSource="{Binding Users}">
@@ -75,6 +78,25 @@ RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminVie
                                     <Button Content="Удалить" Width="auto" CommandParameter="{Binding}"  Command="{Binding DataContext.DeleteUser, 
 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminView}}}"/>
                                     
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Брони">
+                <StackPanel>
+                    <ListBox VerticalAlignment="Stretch" ItemsSource="{Binding Reservations}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Guest}"/>
+                                    <TextBlock Text="{Binding RoomId}"/>
+                                    <TextBlock Text="{Binding Price,Converter={StaticResource price_converter}}"/>
+                                    <TextBlock Text="{Binding EntryDate}"/>
+                                    <TextBlock Text="{Binding LeavingDate}"/>
+                                    <Button Content="Удалить" Width="auto" CommandParameter="{Binding}"  Command="{Binding DataContext.DeleteReservation, 
+RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminView}}}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

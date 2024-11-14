@@ -41,8 +41,6 @@ namespace DemoEkz.ViewModel
 			{
 				Pwd = pwd_box.Password;
                 Autorization();
-
-
             });
 		}
 

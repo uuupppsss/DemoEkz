@@ -1,29 +1,48 @@
-﻿<Window x:Class="DemoEkz.View.GuestRegisterWindow"
+﻿    <Window x:Class="DemoEkz.View.GuestRegisterWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DemoEkz.View"
+        xmlns:vm="clr-namespace:DemoEkz.ViewModel"
+        xmlns:conv="clr-namespace:DemoEkz.Convert"
         mc:Ignorable="d"
+            DataContext="{DynamicResource vm}"
         Title="Бронирование комнаты" Height="450" Width="800">
-    <StackPanel>
-        <Label Content="Номер"/>
-        <TextBlock Text="{Binding RoomId}"/>
-        <Label Content="Имя"/>
-        <TextBox/>
-        <Label Content="Фамилия"/>
-        <TextBox/>
-        <Label Content="Отчество "/>
-        <TextBox/>
-        <Label Content="Дата въезда"/>
-        <DatePicker/>
-        <Label Content="Дата выезда"/>
-        <DatePicker/>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="Итоговая цена: "/>
-            <TextBlock/>
-        </StackPanel>
+        <Window.Resources>
+        <vm:GuestRegisterWindowVM x:Key="vm"/>
+        <conv:PriceConverter x:Key="price_converter"/>
+    </Window.Resources>
 
-        <Button Content="Создать бронь"/>
-    </StackPanel>
-</Window>
+        <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Номер"/>
+            <Label Content="{Binding RoomId}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Цена"/>
+            <Label Content="{Binding Price, Converter={StaticResource price_converter}}"/>
+        </StackPanel>
+        <Label Content="Имя"/>
+            <TextBox Text="{Binding FirstName}"/>
+            <Label Content="Фамилия"/>
+            <TextBox Text="{Binding LastName}"/>    
+             <Label Content="Отчество"/>
+             <TextBox Text="{Binding MiddleName}"/>
+             <Label Content="Дата въезда"/>
+            <DatePicker SelectedDate="{Binding CheckInDate}"/>
+
+            <Label Content="Дата выезда"/>
+            <DatePicker SelectedDate="{Binding CheckOutDate}"/>
+
+            <StackPanel Orientation="Horizontal">
+             <Label Content="Итоговая цена: "/>
+            <Label Content="{Binding TotalPrice, Converter={StaticResource price_converter}}"/>
+            </StackPanel>
+
+            <Button Content="Создать бронь"/>
+        </StackPanel>
+    </Window>
+
+
+   

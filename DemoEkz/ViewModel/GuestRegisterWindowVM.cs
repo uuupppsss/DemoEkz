@@ -24,7 +24,86 @@ namespace DemoEkz.ViewModel
 				Signal();
 			}
 		}
-		public CustomCommand CreateReservation { get; set; }
+
+        private string _firstName;
+        public string FirstName
+        {
+            get => _firstName;
+            set
+            {
+                _firstName = value;
+                Signal();
+            }
+        }
+
+        private string _lastName;
+        public string LastName
+        {
+            get => _lastName;
+            set
+            {
+                _lastName = value;
+                Signal();
+            }
+        }
+
+        private string _middleName;
+        public string MiddleName
+        {
+            get => _middleName;
+            set
+            {
+                _middleName = value;
+                Signal();
+            }
+        }
+
+        private DateTime _checkInDate;
+        public DateTime CheckInDate
+        {
+            get => _checkInDate;
+            set
+            {
+                _checkInDate = value;
+                Signal();
+                UpdateTotalPrice(); 
+            }
+        }
+
+        private DateTime _checkOutDate;    
+        public DateTime CheckOutDate
+        {
+            get => _checkOutDate;
+            set
+            {
+                _checkOutDate = value;
+                Signal();
+                UpdateTotalPrice(); 
+            }
+        }
+
+        private decimal _totalPrice;
+        public decimal TotalPrice
+        {
+            get => _totalPrice;
+            private set
+            {
+                _totalPrice = value;
+                Signal();
+            }
+        }
+
+        private decimal _price;
+        public decimal Price
+        {
+            get => _price;
+             set
+            {
+                _price = value;
+                Signal();
+            }
+        }
+        public CustomCommand CreateReservation { get; set; }
 
         public GuestRegisterWindowVM()
         {
@@ -36,6 +115,8 @@ namespace DemoEkz.ViewModel
             }
 
             RoomId = service.CurrentRoom.Room_id;
+            Price = service.CurrentRoom.Price;
+
 			CreateReservation = new CustomCommand(() =>
 			{
 				service.CreateNewReservation(new GuestRegisterDTO()
@@ -44,6 +125,13 @@ namespace DemoEkz.ViewModel
 				});
 			});
 		}
+
+        private void UpdateTotalPrice()
+        {
+            TimeSpan diff = CheckInDate - CheckOutDate;
+            int days_between=(int)diff.TotalDays;
+            TotalPrice = days_between * Price;
+        }
 
     }
 }

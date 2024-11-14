@@ -16,6 +16,6 @@ namespace DemoEkz.Model
 
         public string? Status { get; set; }
 
-        //public decimal Price { get; set; }
+        public decimal Price { get; set; }
     }
 }

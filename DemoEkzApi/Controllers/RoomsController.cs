@@ -40,7 +40,8 @@ namespace DemoEkzApi.Controllers
                 {
                     Id= o.Id,
                     Room_id = o.Номер,
-                    Status=o.Статус
+                    Status=o.Статус,
+                    Price=o.Price
                 });
             }
             return Ok(result);

@@ -48,7 +48,7 @@ namespace DemoEkz
                 {
                     MessageBox.Show("Что-то пошло не так", $"Ошибка: {response.StatusCode}");
                 }
-                else MessageBox.Show("Пользователь добавлен успешно!");
+                else MessageBox.Show($"Пользователь {user.Login} добавлен успешно!");
             }
             catch (Exception ex)
             {
@@ -56,7 +56,7 @@ namespace DemoEkz
             }
         }
 
-        public async void FirstAutorization(UserDTO user)
+        public async Task FirstAutorization(UserDTO user)
         {
             CurrentUser = null;
             try
@@ -442,7 +442,8 @@ namespace DemoEkz
                         Floor = room.Floor,
                         Room_id = room.Num,
                         Category = room.Category,
-                        Status = report.Status
+                        Status = report.Status,
+                        Price=report.Price
                     });
                 }
             }

@@ -61,11 +61,11 @@ namespace DemoEkz.ViewModel
                 return;
             }
 
-            SaveChangesCommand = new CustomCommand(() =>
+            SaveChangesCommand = new CustomCommand(async() =>
             {
                 if (Pwd == Repeat_Pwd)
                 {
-                    service.FirstAutorization(new UserDTO()
+                    await service.FirstAutorization(new UserDTO()
                     {
                         Login = Login,
                         Password=Pwd

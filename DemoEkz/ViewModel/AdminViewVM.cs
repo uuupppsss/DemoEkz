@@ -44,6 +44,18 @@ namespace DemoEkz.ViewModel
             }
         }
 
+        private List<GuestRegisterDTO> _reservations;
+
+        public List<GuestRegisterDTO> Reservations
+        {
+            get => _reservations;
+            set
+            {
+                _reservations = value;
+                Signal();
+            }
+        }
+
         public CustomCommand<RoomView> UpdateRoom { get; set; }
         public CustomCommand<RoomView> CreateNewReservation { get; set; }
         public CustomCommand<RoomView> SetNewCleaning { get; set; }
@@ -52,6 +64,7 @@ namespace DemoEkz.ViewModel
         public CustomCommand<CleaningDTO> DeleteCleaning { get; set; }
 
         public CustomCommand<UserDTO> DeleteUser { get; set; }
+        public CustomCommand<GuestRegisterDTO> DeleteReservation {  get; set; }
 
         public CustomCommand CreateNewUser { get; set; }
 
@@ -61,6 +74,7 @@ namespace DemoEkz.ViewModel
             GetRoomsList();
             GetCleaningsList();
             GetUsersList();
+            GetReservationsList();
 
             UpdateRoom = new CustomCommand<RoomView>(r => 
             {
@@ -68,6 +82,7 @@ namespace DemoEkz.ViewModel
                 {
                     service.CurrentRoom = r;
                     //обновить коллекцию
+
                 }
             });
 
@@ -79,6 +94,7 @@ namespace DemoEkz.ViewModel
                     GuestRegisterWindow win= new GuestRegisterWindow();
                     win.Closed += UnsetSelectedRoom;
                     //обновить коллекцию
+                    
                     win.ShowDialog();
                 }
             });
@@ -91,6 +107,7 @@ namespace DemoEkz.ViewModel
                     AddNewCleaning win= new AddNewCleaning();
                     win.Closed += UnsetSelectedRoom;
                     //обновить коллекцию
+                    win.Closed += UpdateCleaningsList;
                     win.ShowDialog();
 
                 }
@@ -99,8 +116,9 @@ namespace DemoEkz.ViewModel
             CreateNewUser = new CustomCommand(() =>
             {
                 CreateUserWin win= new CreateUserWin();
-                win.Show();
                 //обновить коллекцию
+                win.Closed += UpdateUsersList;
+                win.Show();
             });
 
             DeleteUser = new CustomCommand<UserDTO>(u =>
@@ -112,6 +130,7 @@ namespace DemoEkz.ViewModel
                     {
                         service.RemoveUser(u.Id);
                         //обновить коллекцию
+                        GetUsersList();
                     }
                 }
             });
@@ -125,6 +144,7 @@ namespace DemoEkz.ViewModel
                     {
                         service.RemoveCleaning(c.Id);
                         //обновить коллекцию
+                        GetCleaningsList();
                     }
                 }
             });
@@ -135,6 +155,20 @@ namespace DemoEkz.ViewModel
                 {
                     service.CurrentCleaning = c;
                     //обновить коллекцию
+                }
+            });
+
+           DeleteReservation = new CustomCommand<GuestRegisterDTO>(r =>
+            {
+                if (r != null)
+                {
+                    var ans = MessageBox.Show("Удалить? ", "Точно?", MessageBoxButton.YesNo);
+                    if (ans == MessageBoxResult.Yes)
+                    {
+                        service.RemoveReservation(r.Id);
+                        //обновить коллекцию
+                       GetReservationsList();
+                    }
                 }
             });
         }
@@ -156,9 +190,33 @@ namespace DemoEkz.ViewModel
             Users=await service.GetUsersList();
         }
 
+        private async void GetReservationsList()
+        {
+            Reservations = await service.GetReservationsList();
+        }
+
         private void UnsetSelectedRoom(object sender, EventArgs e)
         {
             service.CurrentRoom = null;
+        }
+
+        private void UpdateCleaningsList(object sender, EventArgs e)
+        {
+            GetCleaningsList();
+        }
+
+        private void UpdateUsersList(object sender, EventArgs e)
+        {
+            GetUsersList();
+        }
+
+        private void UpdateRoomsList(object sender, EventArgs e)
+        {
+            GetRoomsList();
+        }
+        private void UpdateReservationsList(object sender, EventArgs e)
+        {
+            GetReservationsList();
         }
     }
 }
