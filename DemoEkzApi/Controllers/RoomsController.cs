@@ -56,9 +56,9 @@ namespace DemoEkzApi.Controllers
                 if (booking.LeavingDate == today)
                 {
                     var otchet = context.Otchets.FirstOrDefault(o => o.Номер == booking.RoomId);
-                    if (otchet != null)
+                    if (otchet != null&&otchet.Статус=="Занят")
                     {
-                        otchet.Статус = "грязный";
+                        otchet.Статус = "Грязный";
                     }
                 }
             }
