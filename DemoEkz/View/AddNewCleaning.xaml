@@ -16,10 +16,10 @@
             <Label Content="Номер"/>
             <TextBlock Text="{Binding RoomId}"/>
             <Label Content="Уборщик"/>
-            <TextBox/>
+            <TextBox Text="{Binding Cleaner}"/>
             <Label Content="Дата"/>
-            <DatePicker/>
-            <Button Content="Добавить"/>
+            <DatePicker SelectedDate="{Binding Date}"/>
+            <Button Content="Добавить" Command="{Binding CreateCleaning}"/>
         </StackPanel>
     </Grid>
 </Window>

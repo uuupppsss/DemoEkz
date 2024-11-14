@@ -69,8 +69,14 @@ namespace DemoEkz
                 if (!response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Что-то пошло не так", $"Ошибка: {response.StatusCode}");
+                    return;
                 }
-                else CurrentUser = await response.Content.ReadFromJsonAsync<UserDTO>();
+                else
+                {
+                    CurrentUser = await response.Content.ReadFromJsonAsync<UserDTO>();
+                    MessageBox.Show($"Добро пожаловать, {CurrentUser.Login}");
+                    return;
+                }
             }
             catch (Exception ex)
             {
@@ -78,9 +84,8 @@ namespace DemoEkz
             }
         }
 
-        public async void Autorization(UserDTO user)
+        public async Task Autorization(UserDTO user)
         {
-            CurrentUser = null;
             try
             {
                 string json = JsonSerializer.Serialize(user);
@@ -92,7 +97,7 @@ namespace DemoEkz
                 {
                     MessageBox.Show("Что-то пошло не так", $"Ошибка: {response.StatusCode}");
                 }
-                else CurrentUser = await response.Content.ReadFromJsonAsync<UserDTO>();
+                else CurrentUser = await response.Content.ReadFromJsonAsync<UserDTO>();              
             }
             catch (Exception ex)
             {

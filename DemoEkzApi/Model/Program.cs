@@ -12,6 +12,7 @@ namespace DemoEkzApi.Model
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<User05Context>();
 
             var app = builder.Build();
 

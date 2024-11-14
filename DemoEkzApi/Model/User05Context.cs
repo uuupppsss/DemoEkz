@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using DemoEkzApi.Model;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
-namespace DemoEkzApi.Model;
+namespace DemoEkzApi;
 
 public partial class User05Context : DbContext
 {
@@ -32,7 +33,7 @@ public partial class User05Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=192.168.200.35;userid=user05;password=44084;database=user05", ServerVersion.Parse("10.3.27-mariadb"));
+        => optionsBuilder.UseMySql("server=192.168.200.35;user=user05;password=44084;database=user05", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.3.27-mariadb"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -130,6 +131,7 @@ public partial class User05Context : DbContext
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
+            entity.Property(e => e.Price).HasPrecision(19, 2);
             entity.Property(e => e.Номер).HasColumnType("int(11)");
             entity.Property(e => e.Статус)
                 .HasMaxLength(50)

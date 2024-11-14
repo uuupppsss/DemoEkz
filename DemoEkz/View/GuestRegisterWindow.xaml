@@ -8,7 +8,7 @@
         Title="Бронирование комнаты" Height="450" Width="800">
     <StackPanel>
         <Label Content="Номер"/>
-        <TextBlock/>
+        <TextBlock Text="{Binding RoomId}"/>
         <Label Content="Имя"/>
         <TextBox/>
         <Label Content="Фамилия"/>

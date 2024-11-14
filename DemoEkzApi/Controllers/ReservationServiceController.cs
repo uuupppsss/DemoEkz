@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DemoEkzApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ReservationServiceController : ControllerBase
     {
         readonly User05Context context;
