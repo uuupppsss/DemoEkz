@@ -46,5 +46,24 @@ namespace DemoEkzApi.Controllers
             }
             return Ok(result);
         }
+
+        [HttpGet("UpdateRoomStatuses")]
+        public async Task<ActionResult> UpdateRoomStatuses()
+        {
+            DateTime today = DateTime.Today;
+            foreach (var booking in context.GuestsRegisters)
+            {
+                if (booking.LeavingDate == today)
+                {
+                    var otchet = context.Otchets.FirstOrDefault(o => o.Номер == booking.RoomId);
+                    if (otchet != null)
+                    {
+                        otchet.Статус = "грязный";
+                    }
+                }
+            }
+            await context.SaveChangesAsync();
+            return Ok();
+        }
     }
 }
