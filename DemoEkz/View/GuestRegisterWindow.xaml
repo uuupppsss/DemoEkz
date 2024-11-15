@@ -40,7 +40,7 @@
             <Label Content="{Binding TotalPrice, Converter={StaticResource price_converter}}"/>
             </StackPanel>
 
-            <Button Content="Создать бронь"/>
+        <Button Content="Создать бронь" Command="{Binding CreateReservation}"/>
         </StackPanel>
     </Window>
 

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using DemoEkzApi.Model;
 
-namespace DemoEkzApi;
+namespace DemoEkzApi.Model;
 
 public partial class Роли
 {

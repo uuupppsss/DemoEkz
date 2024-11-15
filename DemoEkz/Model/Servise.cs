@@ -168,7 +168,7 @@ namespace DemoEkz
         //    }
         //}
 
-        public async void RemoveUser(int id)
+        public async Task RemoveUser(int id)
         {
             try
             {
@@ -238,7 +238,7 @@ namespace DemoEkz
                 string json = JsonSerializer.Serialize(reservation);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("ReservationService/CreateNewUser", content);
+                var response = await client.PostAsync("ReservationService/CreateNewReservation", content);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -273,7 +273,7 @@ namespace DemoEkz
             }
         }
 
-        public async void RemoveReservation(int id)
+        public async Task RemoveReservation(int id)
         {
             try
             {
@@ -350,7 +350,7 @@ namespace DemoEkz
             }
         }
 
-        public async void RemoveCleaning(int id)
+        public async Task RemoveCleaning(int id)
         {
             try
             {
@@ -448,6 +448,23 @@ namespace DemoEkz
                 }
             }
             return result;
+        }
+
+        public async Task UpdateRoomsStatuses()
+        {
+            try
+            {
+                var response = await client.GetAsync($"Rooms/UpdateRoomStatuses");
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Что-то пошло не так", $"Ошибка: {response.StatusCode}");
+                }
+                else MessageBox.Show("Уборка удалена успешно");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Всё сломалось: {ex.Message}");
+            }
         }
 
     }

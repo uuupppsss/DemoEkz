@@ -20,17 +20,16 @@ namespace DemoEkzApi.Controllers
                 return BadRequest("Invalid reservation");
             GuestsRegister reservation = new GuestsRegister()
             {
-                GuestId = guestsRegister.GuestId,
+                Guest = guestsRegister.Guest,
                 RoomId = guestsRegister.RoomId,
                 EntryDate = guestsRegister.EntryDate,
                 LeavingDate = guestsRegister.LeavingDate,
                 Price = guestsRegister.Price,
                 IsPaid = guestsRegister.IsPaid,
                 Receipt = guestsRegister.Receipt,
-                Guest = context.Guests.FirstOrDefault(g => g.Id == guestsRegister.GuestId),
                 Room=context.НомернойФондs.FirstOrDefault(r=>r.Номер==guestsRegister.RoomId)
             };
-            if (reservation.Guest == null || reservation.Room == null)
+            if (reservation.Room == null)
                 return BadRequest("Invalid data");
             context.GuestsRegisters.Add(reservation);
             await context.SaveChangesAsync();
@@ -47,14 +46,13 @@ namespace DemoEkzApi.Controllers
                 return BadRequest("Reservation not found");
             GuestsRegister reservation = new GuestsRegister()
             {
-                GuestId = guestsRegister.GuestId,
+                Guest = guestsRegister.Guest,
                 RoomId = guestsRegister.RoomId,
                 EntryDate = guestsRegister.EntryDate,
                 LeavingDate = guestsRegister.LeavingDate,
                 Price = guestsRegister.Price,
                 IsPaid = guestsRegister.IsPaid,
                 Receipt = guestsRegister.Receipt,
-                Guest = context.Guests.FirstOrDefault(g => g.Id == guestsRegister.GuestId),
                 Room = context.НомернойФондs.FirstOrDefault(r => r.Номер == guestsRegister.RoomId)
             };
             if (reservation.Guest == null || reservation.Room == null)
@@ -87,7 +85,7 @@ namespace DemoEkzApi.Controllers
                 {
                     Id= r.Id,
                     RoomId= r.RoomId,
-                    GuestId= r.GuestId,
+                    Guest= r.Guest,
                     EntryDate= r.EntryDate,
                     LeavingDate= r.LeavingDate,
                     Receipt= r.Receipt,

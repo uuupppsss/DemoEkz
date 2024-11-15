@@ -116,13 +116,21 @@ namespace DemoEkz.ViewModel
 
             RoomId = service.CurrentRoom.Room_id;
             Price = service.CurrentRoom.Price;
+            CheckInDate = DateTime.Now;
+            CheckOutDate = DateTime.Now;
 
 			CreateReservation = new CustomCommand(() =>
 			{
-				service.CreateNewReservation(new GuestRegisterDTO()
-				{
-
-				});
+                service.CreateNewReservation(new GuestRegisterDTO()
+                {
+                    Guest = $"{FirstName} {LastName} {MiddleName}",
+                    RoomId=RoomId,
+                    LeavingDate=CheckOutDate,
+                    EntryDate=CheckInDate,
+                    Price=TotalPrice,
+                    IsPaid=false,
+                    Receipt=" "
+                });
 			});
 		}
 

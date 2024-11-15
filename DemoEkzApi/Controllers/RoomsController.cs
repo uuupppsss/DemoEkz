@@ -59,6 +59,7 @@ namespace DemoEkzApi.Controllers
                     if (otchet != null&&otchet.Статус=="Занят")
                     {
                         otchet.Статус = "Грязный";
+                        context.Otchets.Update(otchet);
                     }
                 }
             }

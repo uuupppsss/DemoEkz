@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using DemoEkzApi.Model;
 
-namespace DemoEkzApi;
+namespace DemoEkzApi.Model;
 
 public partial class GuestsRegister
 {
     public int Id { get; set; }
-
-    public int GuestId { get; set; }
 
     public int RoomId { get; set; }
 
@@ -22,7 +19,7 @@ public partial class GuestsRegister
 
     public decimal Price { get; set; }
 
-    public virtual Guest Guest { get; set; } = null!;
+    public string Guest { get; set; } = null!;
 
     public virtual НомернойФонд Room { get; set; } = null!;
 }

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using DemoEkzApi.Model;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
-namespace DemoEkzApi;
+namespace DemoEkzApi.Model;
 
 public partial class User05Context : DbContext
 {
@@ -19,8 +18,6 @@ public partial class User05Context : DbContext
 
     public virtual DbSet<Cleaning> Cleanings { get; set; }
 
-    public virtual DbSet<Guest> Guests { get; set; }
-
     public virtual DbSet<GuestsRegister> GuestsRegisters { get; set; }
 
     public virtual DbSet<Otchet> Otchets { get; set; }
@@ -33,7 +30,7 @@ public partial class User05Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=192.168.200.35;user=user05;password=44084;database=user05", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.3.27-mariadb"));
+        => optionsBuilder.UseMySql("server=192.168.200.35;user=user05;password=44084;database=user05", ServerVersion.Parse("10.3.27-mariadb"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -66,30 +63,11 @@ public partial class User05Context : DbContext
                 .HasConstraintName("FK_Cleaning_Номерной фонд_Номер");
         });
 
-        modelBuilder.Entity<Guest>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
-
-            entity.ToTable("Guest");
-
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
-            entity.Property(e => e.FirstnameName)
-                .HasMaxLength(50)
-                .HasDefaultValueSql("''");
-            entity.Property(e => e.LastName).HasMaxLength(50);
-            entity.Property(e => e.SecondName).HasMaxLength(50);
-        });
-
         modelBuilder.Entity<GuestsRegister>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("GuestsRegister");
-
-            entity.HasIndex(e => e.GuestId, "FK_GuestsRegister_Guest_id");
 
             entity.HasIndex(e => e.RoomId, "FK_GuestsRegister_Номерной фонд_Номер");
 
@@ -97,9 +75,9 @@ public partial class User05Context : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
             entity.Property(e => e.EntryDate).HasColumnType("datetime");
-            entity.Property(e => e.GuestId)
-                .HasColumnType("int(11)")
-                .HasColumnName("guest_id");
+            entity.Property(e => e.Guest)
+                .HasMaxLength(255)
+                .HasDefaultValueSql("''");
             entity.Property(e => e.LeavingDate).HasColumnType("datetime");
             entity.Property(e => e.Price).HasPrecision(19, 2);
             entity.Property(e => e.Receipt)
@@ -108,11 +86,6 @@ public partial class User05Context : DbContext
             entity.Property(e => e.RoomId)
                 .HasColumnType("int(11)")
                 .HasColumnName("room_id");
-
-            entity.HasOne(d => d.Guest).WithMany(p => p.GuestsRegisters)
-                .HasForeignKey(d => d.GuestId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_GuestsRegister_Guest_id");
 
             entity.HasOne(d => d.Room).WithMany(p => p.GuestsRegisters)
                 .HasForeignKey(d => d.RoomId)

@@ -93,8 +93,8 @@ namespace DemoEkz.ViewModel
                     service.CurrentRoom = r;
                     GuestRegisterWindow win= new GuestRegisterWindow();
                     win.Closed += UnsetSelectedRoom;
+                    win.Closed += UpdateReservationsList;
                     //обновить коллекцию
-                    
                     win.ShowDialog();
                 }
             });
@@ -121,28 +121,28 @@ namespace DemoEkz.ViewModel
                 win.Show();
             });
 
-            DeleteUser = new CustomCommand<UserDTO>(u =>
+            DeleteUser = new CustomCommand<UserDTO>(async u =>
             {
                 if (u != null)
                 {
                     var ans = MessageBox.Show("Удалить? ", "Точно?", MessageBoxButton.YesNo);
                     if (ans == MessageBoxResult.Yes)
                     {
-                        service.RemoveUser(u.Id);
+                        await service.RemoveUser(u.Id);
                         //обновить коллекцию
                         GetUsersList();
                     }
                 }
             });
 
-            DeleteCleaning = new CustomCommand<CleaningDTO>(c =>
+            DeleteCleaning = new CustomCommand<CleaningDTO>(async c =>
             {
                 if (c != null)
                 {
                     var ans = MessageBox.Show("Удалить? ", "Точно?", MessageBoxButton.YesNo);
                     if (ans == MessageBoxResult.Yes)
                     {
-                        service.RemoveCleaning(c.Id);
+                        await service.RemoveCleaning(c.Id);
                         //обновить коллекцию
                         GetCleaningsList();
                     }
@@ -158,14 +158,14 @@ namespace DemoEkz.ViewModel
                 }
             });
 
-           DeleteReservation = new CustomCommand<GuestRegisterDTO>(r =>
+           DeleteReservation = new CustomCommand<GuestRegisterDTO>(async r =>
             {
                 if (r != null)
                 {
                     var ans = MessageBox.Show("Удалить? ", "Точно?", MessageBoxButton.YesNo);
                     if (ans == MessageBoxResult.Yes)
                     {
-                        service.RemoveReservation(r.Id);
+                        await service.RemoveReservation(r.Id);
                         //обновить коллекцию
                        GetReservationsList();
                     }
