@@ -73,7 +73,9 @@ RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminVie
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Логин: "/>
                                     <TextBlock Text="{Binding Login}"/>
+                                    <TextBlock Text="Пароль: "/>
                                     <TextBlock Text="{Binding Password}"/>
                                     <Button Content="Удалить" Width="auto" CommandParameter="{Binding}"  Command="{Binding DataContext.DeleteUser, 
 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdminView}}}"/>

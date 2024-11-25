@@ -46,36 +46,36 @@ namespace DemoEkz.ViewModel
 
 		private async void Autorization()
 		{
-            await service.Autorization(new UserDTO()
-            {
-                Login = Login,
-                Password = Pwd
-            });
-                if (service.CurrentUser!=null&&!service.CurrentUser.IsAutorized)
-                {
-                    FirstAutorizationWindow window = new FirstAutorizationWindow();
-                    window.ShowDialog();
-                }
-                else
-                {
-                    Window win = null;
-                    switch (service.CurrentUser.RoleId)
-                    {
-                        case 1:
-                            win = new AdminView();
-                            break;
-                        case 2:
-                            win = new GuestView();
-                            break;
-                        default:
-                            MessageBox.Show("Всё сломалось");
-                            return;
+            //await service.Autorization(new UserDTO()
+            //{
+            //    Login = Login,
+            //    Password = Pwd
+            //});
+            //    if (service.CurrentUser!=null&&!service.CurrentUser.IsAutorized)
+            //    {
+            //        FirstAutorizationWindow window = new FirstAutorizationWindow();
+            //        window.ShowDialog();
+            //    }
+            //    else
+            //    {
+            //        Window win = null;
+            //        switch (service.CurrentUser.RoleId)
+            //        {
+            //            case 1:
+            //                win = new AdminView();
+            //                break;
+            //            case 2:
+            //                win = new GuestView();
+            //                break;
+            //            default:
+            //                MessageBox.Show("Всё сломалось");
+            //                return;
 
-                    }
-                    win.Show();
-                    Window thiswin = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.DataContext == this);
-                    thiswin?.Close();
-                }
+            //        }
+            //        win.Show();
+            //        Window thiswin = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.DataContext == this);
+            //        thiswin?.Close();
+            //    }
         }
 
         PasswordBox pwd_box;

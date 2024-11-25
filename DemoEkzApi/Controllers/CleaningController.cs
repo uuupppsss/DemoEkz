@@ -1,9 +1,11 @@
 ﻿using DemoEkzApi.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoEkzApi.Controllers
 {
+    [Authorize(Roles ="admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class CleaningController : ControllerBase

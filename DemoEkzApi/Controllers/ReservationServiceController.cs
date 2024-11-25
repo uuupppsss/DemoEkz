@@ -1,4 +1,5 @@
 ﻿using DemoEkzApi.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoEkzApi.Controllers
@@ -75,6 +76,7 @@ namespace DemoEkzApi.Controllers
             return Ok();
         }
 
+        [Authorize(Roles ="admin")]
         [HttpGet("GetReservationsList")]
         public async Task<ActionResult<List<GuestRegisterDTO>>> GetReservationsList()
         {
@@ -96,5 +98,11 @@ namespace DemoEkzApi.Controllers
             return Ok(result);
 
         }
+
+        //[HttpGet("GetReservationsListByUserId")]
+        //public async Task<ActionResult<List<GuestRegisterDTO>>> GetReservationsListByUserId()
+        //{
+            
+        //}
     }
 }

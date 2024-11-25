@@ -15,10 +15,11 @@ namespace DemoEkz
     public class Servise
     {
         private readonly HttpClient client;
-        static Servise instance;
         public UserDTO CurrentUser;
         public RoomView CurrentRoom;
         public CleaningDTO CurrentCleaning;
+
+        private static Servise instance;
         public static Servise Instance
         {
             get
@@ -30,7 +31,7 @@ namespace DemoEkz
         }
         public Servise()
         {
-            client = new HttpClient{ BaseAddress = new Uri("http://localhost:5199/api/") };
+            client = Client.HttpClient;
         }
 
         //Юзеры
@@ -461,6 +462,24 @@ namespace DemoEkz
                 }
                 else MessageBox.Show("Уборка удалена успешно");
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Всё сломалось: {ex.Message}");
+            }
+        }
+
+        //Token
+
+        public async Task Auth(UserDTO user)
+        {
+            try
+            {
+                var response = await client.GetAsync($"auth/login?login={user.Login}&password={user.Password}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Что-то пошло не так", $"Ошибка: {response.StatusCode}");
+                }
+                else 
             catch (Exception ex)
             {
                 MessageBox.Show($"Всё сломалось: {ex.Message}");

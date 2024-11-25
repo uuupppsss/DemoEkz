@@ -1,4 +1,5 @@
 ﻿using DemoEkzApi.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace DemoEkzApi.Controllers
             this.context = context;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost("CreateNewUser")]
         public async Task<ActionResult> CreateNewUser(UserDTO user)
         {
@@ -129,6 +131,7 @@ namespace DemoEkzApi.Controllers
         //    else return Ok(false);
         //}
 
+        [Authorize(Roles = "admin")]
         [HttpGet("RemoveUser")]
         public async Task<ActionResult> RemoveUser(int user_id)
         {
@@ -140,6 +143,7 @@ namespace DemoEkzApi.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("GetUsersList")]
         public async Task<ActionResult<List<UserDTO>>> GetUsersList()
         {
