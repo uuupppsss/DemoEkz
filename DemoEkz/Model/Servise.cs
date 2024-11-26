@@ -18,6 +18,7 @@ namespace DemoEkz
         public UserDTO CurrentUser;
         public RoomView CurrentRoom;
         public CleaningDTO CurrentCleaning;
+        public string Role {  get; set; }
 
         private static Servise instance;
         public static Servise Instance
@@ -479,7 +480,16 @@ namespace DemoEkz
                 {
                     MessageBox.Show("Что-то пошло не так", $"Ошибка: {response.StatusCode}");
                 }
-                else 
+                else
+                {
+                    var answer = await response.Content.ReadFromJsonAsync<ResponseTokenAndRole>();
+                    Role = answer.Role;
+                }
+            }
+
+
+
+
             catch (Exception ex)
             {
                 MessageBox.Show($"Всё сломалось: {ex.Message}");
